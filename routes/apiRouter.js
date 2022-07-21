@@ -1,12 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const { getStats } = require('../controllers/articleController')
 
 // Require controller modules
 
 // Get API stats
-router.get('/', (req, res) =>
-	res.json({ message: 'GET api stats not implemented' })
-)
+router.get('/', getStats)
 
 // Get all articles
 router.get('/articles', (req, res) =>

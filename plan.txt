@@ -1,9 +1,0 @@
-users
-posts
-comments
-
-/api/posts
-/api/posts/:postId/comments
-
-/api/users
-/api/users/:userId
