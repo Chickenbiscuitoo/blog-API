@@ -4,6 +4,7 @@ const {
 	getStats,
 	getAllArticles,
 	createArticle,
+	getArticle,
 } = require('../controllers/articleController')
 
 // Require controller modules
@@ -15,11 +16,11 @@ router.get('/', getStats)
 router.get('/articles', getAllArticles)
 
 // Get specific article
-router.get('/article/:articleId', (req, res) =>
-	res.json({ message: 'GET specific article not implemented' })
-)
+router.get('/article/:articleId', getArticle)
+
 // Create new article
 router.post('/article', createArticle)
+
 // Update article
 router.put('/article/:articleId', (req, res) =>
 	res.json({ message: 'PUT(Update) article not implemented' })
