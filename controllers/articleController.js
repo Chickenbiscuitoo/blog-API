@@ -17,6 +17,9 @@ const getStats = (req, res) => {
 			},
 		},
 		function (err, result) {
+			if (err) {
+				return next(err)
+			}
 			res.status(200).json({
 				user_count: result.user_count,
 				article_count: result.article_count,
@@ -25,6 +28,34 @@ const getStats = (req, res) => {
 	)
 }
 
+// @desc    Get list of articles
+// @route   GET /api/articles
+// @access  Public
+const getAllArticles = (req, res, next) => {
+	Article.find({})
+		.sort({ createdAt: 1 })
+		.exec(function (err, list_articles) {
+			if (err) {
+				return next(err)
+			}
+
+			res.status(200).json({
+				list_articles,
+			})
+		})
+}
+
+// @desc    Get specific article
+// @route   GET /api/article/:articleId
+// @access  Public
+const getArticle = (req, res, next) => {}
+
+// @desc    Create new article
+// @route   POST /api/article
+// @access  Public
+const createArticle = (req, res, next) => {}
+
 module.exports = {
 	getStats,
+	getAllArticles,
 }

@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const { getStats } = require('../controllers/articleController')
+const {
+	getStats,
+	getAllArticles,
+} = require('../controllers/articleController')
 
 // Require controller modules
 
@@ -8,9 +11,8 @@ const { getStats } = require('../controllers/articleController')
 router.get('/', getStats)
 
 // Get all articles
-router.get('/articles', (req, res) =>
-	res.json({ message: 'GET all articles not implemented' })
-)
+router.get('/articles', getAllArticles)
+
 // Get specific article
 router.get('/article/:articleId', (req, res) =>
 	res.json({ message: 'GET specific article not implemented' })

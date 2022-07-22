@@ -19,6 +19,12 @@ const ArticleSchema = new Schema(
 			type: String,
 			required: [true, 'Please add a text value'],
 		},
+		comments: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'Comment',
+			},
+		],
 	},
 	{
 		timestamps: true,
