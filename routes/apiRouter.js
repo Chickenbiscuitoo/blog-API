@@ -3,6 +3,7 @@ const router = express.Router()
 const {
 	getStats,
 	getAllArticles,
+	createArticle,
 } = require('../controllers/articleController')
 
 // Require controller modules
@@ -18,9 +19,7 @@ router.get('/article/:articleId', (req, res) =>
 	res.json({ message: 'GET specific article not implemented' })
 )
 // Create new article
-router.post('/article', (req, res) =>
-	res.json({ message: 'POST(Create) new article not implemented' })
-)
+router.post('/article', createArticle)
 // Update article
 router.put('/article/:articleId', (req, res) =>
 	res.json({ message: 'PUT(Update) article not implemented' })

@@ -53,9 +53,23 @@ const getArticle = (req, res, next) => {}
 // @desc    Create new article
 // @route   POST /api/article
 // @access  Public
-const createArticle = (req, res, next) => {}
+const createArticle = (req, res, next) => {
+	const article = new Article({
+		title: req.body.title,
+		author: req.body.author,
+		text: req.body.text,
+	})
+
+	article.save(function (err, article) {
+		if (err) {
+			return next(err)
+		}
+		res.status(201).json({ article })
+	})
+}
 
 module.exports = {
 	getStats,
 	getAllArticles,
+	createArticle,
 }

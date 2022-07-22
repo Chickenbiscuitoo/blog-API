@@ -44,8 +44,9 @@ app.use(function (err, req, res, next) {
 	res.locals.error = req.app.get('env') === 'development' ? err : {}
 
 	// Render the error page
-	res.status(err.status || 500)
-	res.render('error')
+	res.status(err.status || 500).json({
+		err: err.message,
+	})
 })
 
 const PORT = process.env.PORT || 5000
