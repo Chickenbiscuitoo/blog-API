@@ -3,6 +3,7 @@ const User = require('../models/userModel.js')
 const Comment = require('../models/commentModel')
 
 const async = require('async')
+const asyncHandler = require('express-async-handler')
 
 // @desc    Get API Stats
 // @route   GET /api/
@@ -70,7 +71,7 @@ const getArticle = (req, res, next) => {
 
 // @desc    Create new article
 // @route   POST /api/article
-// @access  Public
+// @access  Private
 const createArticle = (req, res, next) => {
 	const article = new Article({
 		title: req.body.title,
@@ -86,9 +87,29 @@ const createArticle = (req, res, next) => {
 	})
 }
 
+// @desc    Update article
+// @route   PUT /api/article/:articleId
+// @access  Private
+const updateArticle = asyncHandler(async (req, res, next) => {
+	const article = await Article.findById(req.params.articleId)
+
+	if (!article) {
+		next(err)
+	}
+
+	const updatedArticle = await Article.findByIdAndUpdate(
+		req.params.articleId,
+		req.body,
+		{ new: true }
+	)
+
+	res.status(200).json(updatedArticle)
+})
+
 module.exports = {
 	getStats,
 	getAllArticles,
 	createArticle,
 	getArticle,
+	updateArticle,
 }
