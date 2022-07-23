@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router()
+
+// Require controller modules
 const {
 	getStats,
 	getAllArticles,
@@ -13,7 +15,7 @@ const {
 	getUser,
 } = require('../controllers/articleController')
 
-// Require controller modules
+router.get()
 
 // Get API stats
 router.get('/', getStats)
