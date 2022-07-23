@@ -106,10 +106,26 @@ const updateArticle = asyncHandler(async (req, res, next) => {
 	res.status(200).json(updatedArticle)
 })
 
+// @desc    Delete article
+// @route   DELETE /api/article/:articleId
+// @access  Private
+const deleteArticle = asyncHandler(async (req, res, next) => {
+	const article = await Article.findById(req.params.articleId)
+
+	if (!article) {
+		next(err)
+	}
+
+	await article.remove()
+
+	res.status(200).json({ id: req.params.articleId })
+})
+
 module.exports = {
 	getStats,
 	getAllArticles,
 	createArticle,
 	getArticle,
 	updateArticle,
+	deleteArticle,
 }

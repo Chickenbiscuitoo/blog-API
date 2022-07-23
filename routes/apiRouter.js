@@ -6,6 +6,7 @@ const {
 	createArticle,
 	getArticle,
 	updateArticle,
+	deleteArticle,
 } = require('../controllers/articleController')
 
 // Require controller modules
@@ -24,10 +25,9 @@ router.post('/article', createArticle)
 
 // Update article
 router.put('/article/:articleId', updateArticle)
+
 // Delete article
-router.delete('/article/:articleId', (req, res) =>
-	res.json({ message: 'DELETE new article not implemented' })
-)
+router.delete('/article/:articleId', deleteArticle)
 
 // Get article comments
 router.get('/article/:articleId/comments', (req, res) =>
