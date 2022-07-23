@@ -7,6 +7,10 @@ const {
 	getArticle,
 	updateArticle,
 	deleteArticle,
+	getComments,
+	createComment,
+	getAllUsers,
+	getUser,
 } = require('../controllers/articleController')
 
 // Require controller modules
@@ -30,21 +34,15 @@ router.put('/article/:articleId', updateArticle)
 router.delete('/article/:articleId', deleteArticle)
 
 // Get article comments
-router.get('/article/:articleId/comments', (req, res) =>
-	res.json({ message: 'GET all comments not implemented' })
-)
+router.get('/article/:articleId/comments', getComments)
+
 // Create new comment
-router.post('/article/:articleId/comments', (req, res) =>
-	res.json({ message: 'POST(Create) new comment not implemented' })
-)
+router.post('/article/:articleId/comments', createComment)
 
 // Get all users
-router.get('/users', (req, res) =>
-	res.json({ message: 'GET all users not implemented' })
-)
+router.get('/users', getAllUsers)
+
 // Get specific user
-router.get('/user/:userId', (req, res) =>
-	res.json({ message: 'GET specific user implemented' })
-)
+router.get('/user/:userId', getUser)
 
 module.exports = router

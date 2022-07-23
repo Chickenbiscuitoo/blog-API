@@ -72,20 +72,19 @@ const getArticle = (req, res, next) => {
 // @desc    Create new article
 // @route   POST /api/article
 // @access  Private
-const createArticle = (req, res, next) => {
-	const article = new Article({
+const createArticle = asyncHandler(async (req, res, next) => {
+	if (!req.body.text || !req.body.title || !req.body.author) {
+		return next(err)
+	}
+
+	const article = await Article.create({
 		title: req.body.title,
 		author: req.body.author,
 		text: req.body.text,
 	})
 
-	article.save(function (err, article) {
-		if (err) {
-			return next(err)
-		}
-		res.status(201).json({ article })
-	})
-}
+	res.status(201).json({ article })
+})
 
 // @desc    Update article
 // @route   PUT /api/article/:articleId
@@ -121,6 +120,74 @@ const deleteArticle = asyncHandler(async (req, res, next) => {
 	res.status(200).json({ id: req.params.articleId })
 })
 
+// @desc    Get article comments
+// @route   GET /api/article/:articleId/comments
+// @access  Public
+const getComments = (req, res, next) => {
+	Article.findById(req.params.articleId)
+		.populate('comments')
+		.exec(function (err, article) {
+			if (err) {
+				return next(err)
+			}
+
+			res.status(200).json({
+				comments: article.comments,
+			})
+		})
+}
+
+// @desc    Create new comment
+// @route   POST /api/article/:articleId/comments
+// @access  Private
+const createComment = asyncHandler(async (req, res, next) => {
+	if (!req.body.text) {
+		return next(err)
+	}
+
+	const comment = await Comment.create({
+		author: req.body.author,
+		text: req.body.text,
+		article: req.params.articleId,
+	})
+
+	Article.findOneAndUpdate(
+		{ _id: req.params.articleId },
+		{ $push: { comments: comment._id } },
+		function (err, article) {
+			if (err) {
+				return next(err)
+			}
+			res.status(200).json(article)
+		}
+	)
+})
+
+// @desc    Get all users
+// @route   GET /api/users
+// @access	Private
+const getAllUsers = (req, res, next) => {
+	User.find({})
+		.sort({ name: 1 })
+		.exec(function (err, list_users) {
+			if (err) {
+				return next(err)
+			}
+
+			res.status(200).json({
+				list_users,
+			})
+		})
+}
+
+// @desc    Get specific user
+// @route   GET /api/user/:userId
+// @access	Private
+const getUser = asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.params.userId)
+	res.status(200).json({ user })
+})
+
 module.exports = {
 	getStats,
 	getAllArticles,
@@ -128,4 +195,8 @@ module.exports = {
 	getArticle,
 	updateArticle,
 	deleteArticle,
+	getComments,
+	createComment,
+	getAllUsers,
+	getUser,
 }
