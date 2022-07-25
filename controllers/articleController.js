@@ -2,6 +2,8 @@ const Article = require('../models/articleModel')
 const User = require('../models/userModel.js')
 const Comment = require('../models/commentModel')
 
+const ApiError = require('../error/ApiError')
+
 const async = require('async')
 const asyncHandler = require('express-async-handler')
 
@@ -74,7 +76,11 @@ const getArticle = (req, res, next) => {
 // @access  Private
 const createArticle = asyncHandler(async (req, res, next) => {
 	if (!req.body.text || !req.body.title || !req.body.author) {
-		return next(err)
+		return next(
+			ApiError.badRequest(
+				'All fields are required and must be non blank'
+			)
+		)
 	}
 
 	const article = await Article.create({
@@ -93,7 +99,7 @@ const updateArticle = asyncHandler(async (req, res, next) => {
 	const article = await Article.findById(req.params.articleId)
 
 	if (!article) {
-		next(err)
+		return next(ApiError.internal('this article does not exist'))
 	}
 
 	const updatedArticle = await Article.findByIdAndUpdate(
@@ -112,7 +118,7 @@ const deleteArticle = asyncHandler(async (req, res, next) => {
 	const article = await Article.findById(req.params.articleId)
 
 	if (!article) {
-		next(err)
+		return next(ApiError.internal('this article does not exist'))
 	}
 
 	await article.remove()
@@ -141,8 +147,12 @@ const getComments = (req, res, next) => {
 // @route   POST /api/article/:articleId/comments
 // @access  Private
 const createComment = asyncHandler(async (req, res, next) => {
-	if (!req.body.text) {
-		return next(err)
+	if (!req.body.text || !req.body.author) {
+		return next(
+			ApiError.badRequest(
+				'All fields are required and must be non blank'
+			)
+		)
 	}
 
 	const comment = await Comment.create({

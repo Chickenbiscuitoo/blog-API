@@ -2,6 +2,8 @@ const express = require('express')
 const dotenv = require('dotenv').config()
 const mongoose = require('mongoose')
 
+const apiErrorHandler = require('./error/api-error-handler')
+
 // Routers Require
 const indexRouter = require('./routes/indexRouter')
 const apiRouter = require('./routes/apiRouter')
@@ -32,22 +34,24 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/', indexRouter)
 app.use('/api', apiRouter)
 
-// Catch 404 and forward to Error Handler
-app.use(function (req, res, next) {
-	next(createError(404))
-})
+app.use(apiErrorHandler)
 
-// Error Handler
-app.use(function (err, req, res, next) {
-	// Set locals, only providing error in development
-	res.locals.message = err.message
-	res.locals.error = req.app.get('env') === 'development' ? err : {}
+// // Catch 404 and forward to Error Handler
+// app.use(function (req, res, next) {
+// 	next(createError(404))
+// })
 
-	// Render the error page
-	res.status(err.status || 500).json({
-		err: err.message,
-	})
-})
+// // Error Handler
+// app.use(function (err, req, res, next) {
+// 	// Set locals, only providing error in development
+// 	res.locals.message = err.message
+// 	res.locals.error = req.app.get('env') === 'development' ? err : {}
+
+// 	// Render the error page
+// 	res.status(err.status || 500).json({
+// 		err: err.message,
+// 	})
+// })
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
