@@ -15,8 +15,6 @@ const {
 	getUser,
 } = require('../controllers/articleController')
 
-router.get()
-
 // Get API stats
 router.get('/', getStats)
 
