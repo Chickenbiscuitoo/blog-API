@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv').config()
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 const apiErrorHandler = require('./error/api-error-handler')
 
@@ -24,6 +25,14 @@ const db = mongoose.connection
 db.on(
 	'error',
 	console.error.bind(console, 'MongoDB connection error:')
+)
+
+// CORS Middleware
+app.use(
+	cors({
+		origin: 'http://127.0.0.1:3000',
+		methods: ['GET'],
+	})
 )
 
 // Middleware

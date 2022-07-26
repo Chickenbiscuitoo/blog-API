@@ -10,7 +10,7 @@ const asyncHandler = require('express-async-handler')
 // @desc    Get API Stats
 // @route   GET /api/
 // @access  Public
-const getStats = (req, res) => {
+const getStats = (req, res, next) => {
 	async.parallel(
 		{
 			user_count: function (callback) {
