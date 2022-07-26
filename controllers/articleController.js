@@ -42,6 +42,7 @@ const getStats = (req, res, next) => {
 const getAllArticles = (req, res, next) => {
 	Article.find({})
 		.sort({ createdAt: 1 })
+		.populate('author')
 		.exec(function (err, list_articles) {
 			if (err) {
 				return next(err)
